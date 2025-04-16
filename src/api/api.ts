@@ -1,22 +1,14 @@
+// services/api/api.ts
 import axios from "axios";
 
-const API_BASE_URL = import.meta.env.REACT_APP_API_URL || "http://195.35.3.40:10000"; // Backend URL
+const BASE_URL = "http://195.35.3.40:10000";
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: BASE_URL,
   headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
+    "Accept": "application/json",
   },
-  withCredentials: true,
+  // You can add timeout, withCredentials, etc. here if needed
 });
-
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.error("API Error:", error.response?.data?.message || error.message);
-    return Promise.reject(error);
-  }
-);
 
 export default api;

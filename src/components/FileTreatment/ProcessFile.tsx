@@ -26,28 +26,37 @@ const ProcessFile: React.FC = () => {
   };
   
   const handleSubmit = async (values: any) => {
-    if (!file) return message.error("Please upload a file.");
-
+    if (!file) {
+      return message.error("Please upload a file.");
+    }
+  
     const formData = new FormData();
     formData.append("file", file);
-    
-
+  
     for (const key in values) {
       if (values[key] && key !== "file") {
         formData.append(key, values[key]);
       }
     }
-
+  
     try {
       const data = await MainDataService.processFile(formData);
       setResponse(data);
-      console.log(data);
       message.success("File processed successfully!");
-    } catch (err) {
-      console.error(err);
+    } catch (error: any) {
+      console.error("Processing failed:", error);
+  
+      // Show general error
       message.error("Failed to process file.");
+  
+      if (error.response?.data) {
+        setResponse(error.response.data);
+      } else {
+        setResponse({ error: error.message });
+      }
     }
   };
+  
 
   return (
     <div style={{ maxWidth: 600, margin: "0 auto", padding: 24 }}>
