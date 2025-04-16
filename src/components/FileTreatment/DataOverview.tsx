@@ -13,16 +13,24 @@ const DataOverview: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (!file) return message.error("Please upload a file.");
+    if (!file) {
+      return message.error("Please upload a file.");
+    }
 
     try {
       const data = await MainDataService.dataOverview(file);
       setResponse(data);
-      console.log(data);
       message.success("File overview generated successfully!");
-    } catch (err) {
-      console.error(err);
+    } catch (error: any) {
+      console.error("Overview failed:", error);
+
       message.error("Failed to generate file overview.");
+
+      if (error.response?.data) {
+        setResponse(error.response.data);
+      } else {
+        setResponse({ error: error.message });
+      }
     }
   };
 
