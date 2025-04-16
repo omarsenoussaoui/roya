@@ -14,15 +14,26 @@ const SheetProfile: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (!file) return message.error("Please upload a file.");
+    if (!file) {
+      return message.error("Please upload a file.");
+    }
 
     try {
-      const data = await MainDataService.sheetProfile(file, sheetName.trim() || undefined);
+      const data = await MainDataService.sheetProfile(
+        file,
+        sheetName.trim() || undefined
+      );
       setResponse(data);
-      message.success("Sheet profile retrieved successfully!");
-    } catch (error) {
-      console.error(error);
+      message.success("Sheet profile retrieved successfully.");
+    } catch (error: any) {
+      console.error("Error retrieving sheet profile:", error);
       message.error("Failed to retrieve sheet profile.");
+
+      if (error.response?.data) {
+        setResponse(error.response.data);
+      } else {
+        setResponse({ error: error.message });
+      }
     }
   };
 
