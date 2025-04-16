@@ -100,6 +100,24 @@ const MainDataService = {
 
     return response.data;
   },
+  dataReduction: async (formData: FormData) => {
+    const queryParams = new URLSearchParams();
+    const formDataForUpload = new FormData();
+
+    for (const [key, value] of formData.entries()) {
+      if (key === 'file') {
+        formDataForUpload.append('file', value);
+      } else {
+        queryParams.append(key, value.toString());
+      }
+    }
+
+    const response = await api.post(`/data-reduction?${queryParams.toString()}`, formDataForUpload, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+    return response.data;
+  },
 };
 
 export default MainDataService;
