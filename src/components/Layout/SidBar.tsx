@@ -24,13 +24,8 @@ export default function SidBar() {
         selectedKeys={[selectedKey]}
         style={{ width: 250, height: '100vh', borderRight: '1px solid #eee' }}
         onClick={handleClick}
-      >
-        {sidebarMenuItems.map(item => (
-          <Menu.Item key={item.key} icon={item.icon}>
-            {item.label}
-          </Menu.Item>
-        ))}
-      </Menu>
+        items={sidebarMenuItems}
+      />
     </div>
   );
 }
